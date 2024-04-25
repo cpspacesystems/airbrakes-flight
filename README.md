@@ -1,6 +1,7 @@
 # airbrakes-flight
 
 ## Quickstart
+If you're on a Mac, follow the steps under "Step-by-Step Guide" on [this page](https://gist.github.com/sorny/969fe55d85c9b0035b0109a31cbcb088) first.
 
 Run
 
