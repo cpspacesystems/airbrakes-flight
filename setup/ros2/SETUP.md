@@ -16,6 +16,8 @@ If you want to run the ROS2 environment again, use:
 bash run_ros2.sh
 ```
 
+Note that you might have to run `docker stop ros2` before running the above.
+
 I'll look into persistent ROS2 containers and/or filesystem mounting soon. -
 Spandan
 
