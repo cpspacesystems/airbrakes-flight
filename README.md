@@ -1,5 +1,7 @@
 # airbrakes-flight
 
+## Quickstart
+
 Run
 
 ```bash
@@ -16,3 +18,6 @@ the container will be reflected on your host machine.
 Look up how to use `tmux`; it's how you'll open different terminal windows at
 the same time (as ROS2 frequently requires). In particular, learn how to create
 panes.
+
+## Docker Setup
+You'll need Docker for this. [Here's a setup tutorial](https://www.docker.com/get-started/).  
