@@ -12,6 +12,8 @@ to instantly start the project. You might have to stop any `cpss-ros2`
 containers running on your machine via `docker stop cpss-ros2` if you've
 run the script before. You'll be dropped into a `tmux` session.
 
+> It might take a hot second to run; it's building a whole Docker image.
+
 Your current directory is mounted in `/home/pwd` in the container. Edits made in
 the container will be reflected on your host machine.
 
