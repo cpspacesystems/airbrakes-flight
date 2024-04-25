@@ -16,11 +16,11 @@ run the script before. You'll be dropped into a `tmux` session.
 > It might take a hot second to run; it's building a whole Docker image.
 
 Your current directory is mounted in `/home/pwd` in the container. Edits made in
-the container will be reflected in real time on your host machine and vice versa--so the ideal workflow is to develop on your host machine using your favorite IDE, then run the changes in the ROS2 container that the script launches. 
+the container will be reflected in real time on your host machine and vice versa--so the ideal workflow is to develop on your host machine using your favorite IDE, then run the changes in the ROS2 container that the script launches. You don't have to open/close any windows or refresh anything; the mounted directory just updates.
 
 Look up how to use `tmux`; it's how you'll open different terminal windows at
 the same time (as ROS2 frequently requires). In particular, learn how to create
-panes.
+panes, which split one terminal window into two. Windows might also be useful for creating "browser tab"-like setups. 
 
 ## Docker Setup
 You'll need Docker for this. [Here's a setup tutorial](https://www.docker.com/get-started/).  
