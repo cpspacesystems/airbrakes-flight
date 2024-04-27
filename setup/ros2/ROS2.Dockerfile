@@ -1,7 +1,5 @@
-ARG DOMAIN_ID=42
-
 FROM osrf/ros:humble-desktop-full
-
+ENV DOMAIN_ID=42
 CMD ["bash"]
 
 # See https://docs.ros.org/en/humble/Tutorials/Beginner-CLI-Tools/Configuring-ROS2-Environment.html for details
