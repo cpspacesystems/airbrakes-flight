@@ -9,7 +9,7 @@ RUN apt-get update -y; \
 		apt-get upgrade -y; \
 		source /opt/ros/humble/setup.bash; \
 		echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc; \
-		export ROS_DOMAIN_ID=${ROS_DOMAIN_ID}; \
+		export ROS_DOMAIN_ID=${DOMAIN_ID}; \
 		echo "export ROS_DOMAIN_ID=${DOMAIN_ID}" >> ~/.bashrc; \
 		apt-get install tmux -y; \
 		echo "tmux set -g mouse on" >> ~/.bashrc
