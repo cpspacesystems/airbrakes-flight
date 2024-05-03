@@ -30,6 +30,7 @@ You'll need Docker for this. [Here's a setup tutorial](https://www.docker.com/ge
 -  Install PlatformIO extension for VSCode
 	- if you get the error "no Python3" or related, run the following in the terminal and restart vscode:
 	- sudo apt install python3-venv
+ 	- restart VSCode
 - Clone the repo and Open the micro-ros-demo-project
 - Plug in the teensy 
 - Build the project using the button in the top right, then with the dropown upload the project
