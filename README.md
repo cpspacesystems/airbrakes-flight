@@ -32,10 +32,12 @@ You'll need Docker for this. [Here's a setup tutorial](https://www.docker.com/ge
 	- sudo apt install python3-venv
 - Clone the repo and Open the micro-ros-demo-project
 - Plug in the teensy 
-- Build the project, upload the project
+- Build the project using the button in the top right, then with the dropown upload the project
 
-- Install micro-ros agent
+- run the micro-ros agent
+	- cd into 'microros_ws', run 'source install/setup.bash'
+ 	- run 'ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyACM1'
  	- NOTE: If you run into an error saying "/dev/ttyACM0 permission denied" or similar, enter the following command:
 	- sudo usermod -a -G dialout $USER
-- start the micro-ros agent
+
 - Unplug and re-plug in your pico. If you see flashing, it works!
