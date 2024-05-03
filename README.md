@@ -32,6 +32,8 @@ You'll need Docker for this. [Here's a setup tutorial](https://www.docker.com/ge
 	- sudo apt install python3-venv
  	- restart VSCode
 - Clone the repo and Open the micro-ros-demo-project
+- Give yourself permisison to write to the teensy
+ 	- in /etc/udev/rules.d, run  'sudo wget https://www.pjrc.com/teensy/00-teensy.rules'
 - Plug in the teensy 
 - Build the project using the button in the top right, then with the dropown upload the project
 
