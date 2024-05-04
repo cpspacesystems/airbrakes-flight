@@ -33,3 +33,8 @@
 
 # MacOS
 .DS_Store
+
+# ros workspaces
+build/
+install/
+log/
