@@ -1,3 +1,5 @@
+// Main file to configure RCL Executor and run a configured node with attached handlers
+
 #include <Arduino.h>
 #include <micro_ros_platformio.h>
 
@@ -13,13 +15,15 @@
 #endif
 
 rclc_executor_t executor;
-rclc_support_t support;
-rcl_allocator_t allocator;
 
 /**
  * @brief runs once at the start of execution, sets up ROS Client Library and nodes
  */
 void setup() {
+    rclc_support_t support;
+    rcl_allocator_t allocator;
+    rcl_node_t node;
+
     // Configure serial transport
     Serial.begin(115200);
     set_microros_serial_transports(Serial);
@@ -30,10 +34,11 @@ void setup() {
     RCCHECK(rclc_support_init(&support, 0, NULL, &allocator));
 
     // Initialize node
-    init_all_nodes(support);
+    RCCHECK(rclc_node_init_default(&node, NODE_NAME, "", &support));
+    init_all_handlers(support, node);
 
     // Initialize executor
-    RCCHECK(rclc_executor_init(&executor, &support.context, 1, &allocator));
+    RCCHECK(rclc_executor_init(&executor, &support.context, HANDLER_COUNT, &allocator));
 
     // Attach node ot executor
     attach_all_to_executor(executor);
@@ -43,6 +48,7 @@ void setup() {
  * @brief runs every tick, spins the executor
  */
 void loop() {
-    delay(100);
-    RCSOFTCHECK(rclc_executor_spin_some(&executor, RCL_MS_TO_NS(100)));
+    const size_t delta_t = 100;
+    delay(delta_t);
+    RCSOFTCHECK(rclc_executor_spin_some(&executor, RCL_MS_TO_NS(delta_t)));
 }

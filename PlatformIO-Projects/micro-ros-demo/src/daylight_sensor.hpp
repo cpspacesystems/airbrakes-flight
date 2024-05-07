@@ -1,3 +1,5 @@
+/** ROS2 Node to simulate daylight sensor. 
+ * Publishes "0" for night, and "1" for day */
 #pragma once
 
 #include <Arduino.h>
@@ -12,15 +14,16 @@
 #include <helper.hpp>
 
 
-namespace pub
+namespace daylight_sensor
 {
+const size_t HANDLER_COUNT = 1;  // only handler is a single timer
 
 rcl_publisher_t publisher;
 std_msgs__msg__Int32 msg;
 rcl_timer_t timer;
 
 
-/** Funciton Prototypes */
+/** Function Prototypes */
 void timer_callback(rcl_timer_t *, int64_t);
 
 /**
@@ -28,33 +31,28 @@ void timer_callback(rcl_timer_t *, int64_t);
  * 
  * @param support ros client library support structure
  */
-void init_node(rclc_support_t &support) {
-    // create node
-    rcl_node_t node;
-    RCCHECK(rclc_node_init_default(&node, "micro_ros_platformio_node", "", &support));
+void init_handlers(rclc_support_t &support, rcl_node_t &node) {
+    // Configure local information
+    msg.data = 0;
 
     // create publisher
     RCCHECK(rclc_publisher_init_default(
         &publisher,
         &node,
         ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int32),
-        "counter_topic"));
+        "daytime"));
 
     // create timer to trigger publisher
-    const unsigned int timer_timeout = 1000;
+    const unsigned int delta_t = 1000;  // [ms] time between timer ticks
     RCCHECK(rclc_timer_init_default(
         &timer,
         &support,
-        RCL_MS_TO_NS(timer_timeout),
+        RCL_MS_TO_NS(delta_t),  // time between publishes
         timer_callback));
-
-    // Configure local information
-    pinMode(LED_BUILTIN, OUTPUT);
-    msg.data = 0;
 }
 
 /**
- * @brief Attaches our node to the executor through a timer so it will run
+ * @brief Attaches our handlers to the executor, like our timer
  * 
  * @param executor ros executor structure with executor info
  */
@@ -72,9 +70,8 @@ void timer_callback(rcl_timer_t *timer, int64_t last_call_time) {
     RCLC_UNUSED(last_call_time);
     if (timer != NULL) {
         RCSOFTCHECK(rcl_publish(&publisher, &msg, NULL));
-        // change LED state to show publishing
-        digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));
-        msg.data++;
+        msg.data = !msg.data;
     }
 }
+
 }
