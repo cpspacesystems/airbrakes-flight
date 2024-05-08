@@ -16,8 +16,8 @@
 namespace light_switch
 {
 
-const size_t LED_PIN = 22;  
-//const size_t LED_PIN = LED_BUILTIN;
+//const size_t LED_PIN = 22;  
+const size_t LED_PIN = LED_BUILTIN;
 const size_t HANDLER_COUNT = 2;  // two handlers, one for each subscription 
 
 rcl_subscription_t on_subscriber;
