@@ -15,15 +15,15 @@
 #endif
 
 rclc_executor_t executor;
+rclc_support_t support;
+rcl_allocator_t allocator;
+rcl_node_t node;
+
 
 /**
  * @brief runs once at the start of execution, sets up ROS Client Library and nodes
  */
 void setup() {
-    rclc_support_t support;
-    rcl_allocator_t allocator;
-    rcl_node_t node;
-
     // Configure serial transport
     Serial.begin(115200);
     set_microros_serial_transports(Serial);
