@@ -40,7 +40,7 @@ void setup() {
     // Initialize executor
     RCCHECK(rclc_executor_init(&executor, &support.context, HANDLER_COUNT, &allocator));
 
-    // Attach node ot executor
+    // Attach node to executor
     attach_all_to_executor(executor);
 }
 
