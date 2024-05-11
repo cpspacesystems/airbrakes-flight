@@ -12,6 +12,8 @@ RUN apt-get update -y; \
 		apt-get install tmux -y; \
 		echo "tmux set -g mouse on" >> ~/.bashrc
 
+WORKDIR /home/pwd
+
 RUN apt install ros-humble-turtlesim
 
 ENTRYPOINT ["tmux", "new", "-s", "ros2"]
