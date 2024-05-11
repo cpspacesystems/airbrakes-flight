@@ -36,3 +36,23 @@ This will install the necessary dependencies for the Rust code to run, including
 ## Docker Setup
 
 You'll need Docker for this. [Here's a setup tutorial](https://www.docker.com/get-started/).
+
+
+## Micro-ROS Setup
+-  Install PlatformIO extension for VSCode
+	- if you get the error "no Python3" or related, run the following in the terminal and restart vscode:
+	- sudo apt install python3-venv
+ 	- restart VSCode
+- Clone the repo and Open the micro-ros-demo-project
+- Give yourself permisison to write to the teensy
+ 	- in /etc/udev/rules.d, run  'sudo wget https://www.pjrc.com/teensy/00-teensy.rules'
+- Plug in the teensy 
+- Build the project using the button in the top right, then with the dropown upload the project
+
+- run the micro-ros agent
+	- cd into 'microros_ws', run 'source install/setup.bash'
+ 	- run 'ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyACM1'
+ 	- NOTE: If you run into an error saying "/dev/ttyACM0 permission denied" or similar, enter the following command:
+	- sudo usermod -a -G dialout $USER
+
+- Unplug and re-plug in your pico. If you see flashing, it works!
