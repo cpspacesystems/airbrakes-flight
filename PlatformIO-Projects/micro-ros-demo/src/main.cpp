@@ -7,8 +7,16 @@
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
 
-#include <helper.hpp>
-#include <config.hpp>
+#include <support/helper.hpp>
+#include <support/constants.hpp>
+
+#ifdef ROLE_EFFECTOR
+#include <roles/effector.hpp>
+#endif
+
+#ifdef ROLE_SENSOR
+#include <roles/sensor.hpp>
+#endif
 
 #if !defined(MICRO_ROS_TRANSPORT_ARDUINO_SERIAL)
 #error This code is only avaliable for Arduino framework with serial transport.
@@ -25,8 +33,8 @@ rcl_node_t node;
  */
 void setup() {
     // Configure serial transport
-    Serial.begin(115200);
-    set_microros_serial_transports(Serial);
+    ID_Serial.begin(115200);
+    set_microros_serial_transports(ID_Serial);
     delay(2000);
 
     // initialize rcl, create init_options
@@ -34,7 +42,7 @@ void setup() {
     RCCHECK(rclc_support_init(&support, 0, NULL, &allocator));
 
     // Initialize node
-    RCCHECK(rclc_node_init_default(&node, NODE_NAME, "", &support));
+    RCCHECK(rclc_node_init_default(&node, ROLE_NODE_NAME, "", &support));
     init_all_handlers(support, node);
 
     // Initialize executor
