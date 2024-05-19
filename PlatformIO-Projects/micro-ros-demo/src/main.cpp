@@ -8,23 +8,16 @@
 #include <rclc/executor.h>
 
 #include <support/helper.hpp>
-#include <support/constants.hpp>
+#include <config/config.hpp>
 
-#ifdef ROLE_EFFECTOR
-#include <roles/effector.hpp>
-#endif
-
-#ifdef ROLE_SENSOR
-#include <roles/sensor.hpp>
-#endif
+#define EXECUTOR_SPIN_PERIOD_MS 100
 
 #if !defined(MICRO_ROS_TRANSPORT_ARDUINO_SERIAL)
 #error This code is only avaliable for Arduino framework with serial transport.
 #endif
 
 rclc_executor_t executor;
-rclc_support_t support;
-rcl_allocator_t allocator;
+rclc_support_t support; rcl_allocator_t allocator;
 rcl_node_t node;
 
 
@@ -56,7 +49,6 @@ void setup() {
  * @brief runs every tick, spins the executor
  */
 void loop() {
-    const size_t delta_t = 100;
-    delay(delta_t);
-    RCSOFTCHECK(rclc_executor_spin_some(&executor, RCL_MS_TO_NS(delta_t)));
+    delay(EXECUTOR_SPIN_PERIOD_MS);
+    RCSOFTCHECK(rclc_executor_spin_some(&executor, RCL_MS_TO_NS(EXECUTOR_SPIN_PERIOD_MS)));
 }
