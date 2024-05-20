@@ -13,9 +13,6 @@
 #include <handlers/daylight_sensor.hpp>
 #include <handlers/light_switch.hpp>
 
-#define ROLE_SENSOR
-#define ROLE_EFFECTOR
-
 // Choose your node names here
 #if defined(ROLE_SENSOR)
     #define ROLE_NODE_NAME "micro_ros_sensor"
