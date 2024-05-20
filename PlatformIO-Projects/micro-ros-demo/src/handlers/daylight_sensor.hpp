@@ -16,6 +16,7 @@
 
 namespace daylight_sensor
 {
+
 const size_t HANDLER_COUNT = 1;  // only handler is a single timer
 
 rcl_publisher_t publisher;

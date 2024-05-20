@@ -12,6 +12,7 @@
 // Import all your c++ files here
 #include <handlers/daylight_sensor.hpp>
 #include <handlers/light_switch.hpp>
+#include <handlers/imu.hpp>
 
 // Choose your node names here
 #if defined(ROLE_SENSOR)
@@ -25,6 +26,7 @@
 const size_t HANDLER_COUNT = (
     #ifdef ROLE_SENSOR
     daylight_sensor::HANDLER_COUNT + 
+    imu::HANDLER_COUNT +
     #endif
     #ifdef ROLE_EFFECTOR
     light_switch::HANDLER_COUNT + 
@@ -39,6 +41,7 @@ const size_t HANDLER_COUNT = (
 void init_all_handlers(rclc_support_t &support, rcl_node_t &node) {
     #ifdef ROLE_SENSOR  // put all sensor initializers here
         daylight_sensor::init_handlers(support, node);
+        imu::init_handlers(support, node);
     #endif
     #ifdef ROLE_EFFECTOR  // put all sensor initializers here
         light_switch::init_handlers(support, node);
@@ -53,6 +56,7 @@ void init_all_handlers(rclc_support_t &support, rcl_node_t &node) {
 void attach_all_to_executor(rclc_executor_t &executor) {
     #ifdef ROLE_SENSOR  // put all sensor attachers here
         daylight_sensor::attach_to_executor(executor);
+        imu::attach_to_executor(executor);
     #endif
     #ifdef ROLE_EFFECTOR  // putt all effector attachers here
         light_switch::attach_to_executor(executor);
