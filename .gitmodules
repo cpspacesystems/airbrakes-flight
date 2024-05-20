@@ -5,3 +5,6 @@
 	path = microros_ws/src/micro_ros_setup
 	url = https://github.com/micro-ROS/micro_ros_setup.git
 	branch = humble
+[submodule "microros_ws/src/rfm9x"]
+	path = microros_ws/src/rfm9x
+	url = git@github.com:cpspacesystems/ros2-rfm9x.git
