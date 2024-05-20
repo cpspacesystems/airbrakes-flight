@@ -12,11 +12,11 @@
 #include <std_msgs/msg/int32.h>
 
 #include <support/helper.hpp>
-#include <support/constants.hpp>
 
 
 namespace daylight_sensor
 {
+
 const size_t HANDLER_COUNT = 1;  // only handler is a single timer
 
 rcl_publisher_t publisher;
@@ -41,7 +41,7 @@ void init_handlers(rclc_support_t &support, rcl_node_t &node) {
         &publisher,
         &node,
         ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int32),
-        DAYLIGHT_SENSOR_TOPIC_NAME));
+        "daytime"));
 
     // create timer to trigger publisher
     const unsigned int delta_t = 1000;  // [ms] time between timer ticks

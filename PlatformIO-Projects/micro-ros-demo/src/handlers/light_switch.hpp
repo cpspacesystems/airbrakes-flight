@@ -11,7 +11,6 @@
 #include <std_msgs/msg/int32.h>
 
 #include <support/helper.hpp>
-#include <support/constants.hpp>
 
 
 namespace light_switch
@@ -36,21 +35,21 @@ void off_switch_callback(const void *);
 void init_handlers(rclc_support_t &support, rcl_node_t &node) {
     // Configure local information
     RCL_UNUSED(support);  // prevent unused warning
-    pinMode(LIGHT_SWITCH_LED_PIN, OUTPUT);
+    pinMode(ID_PIN_LED, OUTPUT);
 
     // create first subscriber for on switch
     RCCHECK(rclc_subscription_init_default(
         &on_subscriber,
         &node,
         ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int32),
-        LIGHT_SWITCH_SUB_ON_TOPIC_NAME));
+        "daytime"));
 
     // create second subscriber for off switch
     RCCHECK(rclc_subscription_init_default(
         &off_subscriber,
         &node,
         ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int32),
-        LIGHT_SWITCH_SUB_OFF_TOPIC_NAME));
+        "daytime"));
 }
 
 /**
@@ -72,7 +71,7 @@ void on_switch_callback(const void *msg_in) {
     int daytime = ((const std_msgs__msg__Int32 *)msg_in)->data;
 
     if (!daytime) {
-        digitalWrite(LIGHT_SWITCH_LED_PIN, HIGH);
+        digitalWrite(ID_PIN_LED, HIGH);
     }
 }
 
@@ -85,7 +84,7 @@ void off_switch_callback(const void *msg_in) {
     int daytime = ((const std_msgs__msg__Int32 *)msg_in)->data;
 
     if (daytime) {
-        digitalWrite(LIGHT_SWITCH_LED_PIN, LOW);
+        digitalWrite(ID_PIN_LED, LOW);
     }
 }
 
