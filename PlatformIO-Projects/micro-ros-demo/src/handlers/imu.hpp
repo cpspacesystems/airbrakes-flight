@@ -18,7 +18,7 @@
 #define IMU_TOPIC_NAME "imu"
 #define IMU_UPDATE_PERIOD_MS 50
 
-#define ID_IMU1_Wire Wire2
+#define ID_IMU1_Wire Wire
 #define ID_IMU1_ACCL_ADDR 0x18
 #define ID_IMU1_GYRO_ADDR 0x68
 
@@ -26,7 +26,7 @@
 #define ID_IMU2_ACCL_ADDR 0x18
 #define ID_IMU2_GYRO_ADDR 0x68
 
-#define ID_IMU3_Wire Wire
+#define ID_IMU3_Wire Wire2
 #define ID_IMU3_ACCL_ADDR 0x18
 #define ID_IMU3_GYRO_ADDR 0x68
 

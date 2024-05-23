@@ -20,7 +20,6 @@ rclc_executor_t executor;
 rclc_support_t support; rcl_allocator_t allocator;
 rcl_node_t node;
 
-
 /**
  * @brief runs once at the start of execution, sets up ROS Client Library and nodes
  */
