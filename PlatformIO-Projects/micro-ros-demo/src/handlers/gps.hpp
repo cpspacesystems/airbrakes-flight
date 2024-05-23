@@ -89,7 +89,7 @@ void timer_callback(rcl_timer_t *timer, int64_t last_call_time) {
     if (timer != NULL) {
         while (SERIAL_PORT.available()) {
             if (gps.encode(SERIAL_PORT.read())) {
-                debug_str.data.data = (char *)Serial1.readStringUntil('\r').c_str();  // doesn't work, some c allocator bullshit
+                debug_str.data.data = (char *)(Serial1.readStringUntil('\r').trim()).c_str();  // doesn't work, some c allocator bullshit
                 RCSOFTCHECK(rcl_publish(&debug_pub, &debug_str, NULL));
 
                 gps_data.latitude = gps.location.lat();
