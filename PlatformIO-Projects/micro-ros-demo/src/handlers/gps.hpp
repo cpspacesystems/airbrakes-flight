@@ -11,12 +11,18 @@
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
 
-#include <std_msgs/msg/string.h>
 #include <sensor_msgs/msg/nav_sat_fix.h>
 
 #include <support/helper.hpp>
 
 #define SERIAL_PORT Serial1
+#define ONLY_PUBLISH_NEW_DATA false
+
+#define SECONDS_IN_HOUR 3600
+#define SECONDS_IN_DAY 86400
+#define SECONDS_IN_WEEK 604800
+#define SECONDS_IN_MONTH 2629743
+#define SECONDS_IN_YEAR 31556926
 
 namespace gps
 {
@@ -24,14 +30,11 @@ namespace gps
 const size_t HANDLER_COUNT = 1;  // only handler is a single timer
 
 rcl_publisher_t data_pub;
-rcl_publisher_t debug_pub;
-
 sensor_msgs__msg__NavSatFix gps_data;
-std_msgs__msg__String debug_str;
-
 rcl_timer_t timer;
 
 TinyGPSPlus gps;
+
 
 /** Function Prototypes */
 void timer_callback(rcl_timer_t *, int64_t);
@@ -51,14 +54,6 @@ void init_handlers(rclc_support_t &support, rcl_node_t &node) {
         &node,
         ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, NavSatFix),
         "gps0"));
-    
-    RCCHECK(rclc_publisher_init_default(
-        &debug_pub,
-        &node,
-        ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String),
-        "gps0/debug"));
-
-
 
     // create timer to trigger publisher
     const unsigned int delta_t = 500;  // [ms] time between timer ticks
@@ -78,6 +73,18 @@ void attach_to_executor(rclc_executor_t &executor) {
     RCCHECK(rclc_executor_add_timer(&executor, &timer));
 }
 
+/*
+int32_t date_to_epoch_time() {
+    gps.date.day();
+    gps.date.month();
+    gps.date.year();
+    gps.time.hour() * SECONDS_IN_HOUR
+    + gps.time.minute() * 60
+    + gps.time.second();
+    return 0;
+}
+*/
+
 /**
  * @brief Called at a set interval, publishes a message every tick
  * 
@@ -87,18 +94,22 @@ void attach_to_executor(rclc_executor_t &executor) {
 void timer_callback(rcl_timer_t *timer, int64_t last_call_time) {
     RCLC_UNUSED(last_call_time);
     if (timer != NULL) {
-        while (SERIAL_PORT.available()) {
-            if (gps.encode(SERIAL_PORT.read())) {
-                debug_str.data.data = (char *)(Serial1.readStringUntil('\r').trim()).c_str();  // doesn't work, some c allocator bullshit
-                RCSOFTCHECK(rcl_publish(&debug_pub, &debug_str, NULL));
-
-                gps_data.latitude = gps.location.lat();
-                gps_data.longitude = gps.location.lng();
-                gps_data.altitude = gps.altitude.meters();
-                gps_data.position_covariance_type = sensor_msgs__msg__NavSatFix__COVARIANCE_TYPE_UNKNOWN; 
-                RCSOFTCHECK(rcl_publish(&data_pub, &gps_data, NULL));
+        while (SERIAL_PORT.available() > 0) {
+            if (gps.encode(SERIAL_PORT.read())) {  // returns true when encode is done
+                if (gps.location.isUpdated() || !ONLY_PUBLISH_NEW_DATA) {
+                    gps_data.latitude = gps.location.lat();
+                    gps_data.longitude = gps.location.lng();
+                    gps_data.altitude = gps.altitude.meters();
+                    gps_data.position_covariance_type = sensor_msgs__msg__NavSatFix__COVARIANCE_TYPE_UNKNOWN; 
+                    
+                    // calculate time since epoch
+                    //gps_data.header.stamp.sec;
+                    RCSOFTCHECK(rcl_publish(&data_pub, &gps_data, NULL));\
+                }       
             }
         }
+
+        
     }
 }
 
