@@ -56,7 +56,7 @@ For this task, We need to run the micro-ros-agent, THEN plug in the teensy. ther
 	- build the agent:
 		- cd into `microros_ws`
 		- `sudo usermod -a -G dialout $USER`
-		- `sudo apt update && sudo apt install python3-rosdep &&  sudo rosdep init  && rosdep update`
+		- `sudo apt update && sudo apt install python3-rosdep2 &&  sudo rosdep init  && rosdep update`
 		- `rosdep install --from-paths src --ignore-src -y`
 		- `sudo apt-get install python3-pip`
 		- `colcon build`
