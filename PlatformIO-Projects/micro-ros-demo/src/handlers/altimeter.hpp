@@ -14,12 +14,20 @@
 #include "Adafruit_BMP3XX.h"
 
 #define SEALEVELPRESSURE_HPA (1013.25)
+
 #define ALTIMETER_TOPIC_NAME "altimeter"
-#define ALTIMETER_0_WIRE Wire 
-#define ALTIMETER_0_ADDR 0x76
-#define ALTIMETER_1_WIRE Wire
-#define ALTIMETER_1_ADDR 0x77
 #define ALTIMETER_UPDATE_MS 50
+
+#define ALTIMETER_0_SCK 13
+#define ALTIMETER_0_MISO 12
+#define ALTIMETER_0_MOSI 11
+#define ALTIMETER_0_CS 10
+
+#define ALTIMETER_1_SCK 13
+#define ALTIMETER_1_MISO 12
+#define ALTIMETER_1_MOSI 11
+#define ALTIMETER_1_CS 37
+
 
 class Altimeter {
     private: 
@@ -30,9 +38,9 @@ class Altimeter {
     sensor_msgs__msg__NavSatFix altitude_msg;
 
     public:
-    Altimeter(uint8_t id, TwoWire &wire, uint8_t slave_addr) {
-        // Initialize altimeter on I2C
-        this->bmp.begin_I2C(slave_addr, &wire);
+    Altimeter(uint8_t id, int8_t cs_pin, int8_t sck_pin, int8_t miso_pin, int8_t mosi_pin) {
+        // Initialize altimeter on SPI
+        this->bmp.begin_SPI(cs_pin, sck_pin, miso_pin, mosi_pin);
         this->id = id;
 
         // Set up oversampling and filter initialization
@@ -63,8 +71,8 @@ namespace altimeter {
 
     rcl_timer_t timer; 
 
-    Altimeter altimeter0(0, ALTIMETER_0_WIRE, ALTIMETER_0_ADDR);
-    Altimeter altimeter1(1, ALTIMETER_1_WIRE, ALTIMETER_1_ADDR);
+    Altimeter altimeter0(0, ALTIMETER_0_CS, ALTIMETER_0_SCK, ALTIMETER_0_MISO, ALTIMETER_0_MOSI);
+    Altimeter altimeter1(1, ALTIMETER_1_CS, ALTIMETER_1_SCK, ALTIMETER_1_MISO, ALTIMETER_1_MOSI);
 
     void timer_callback(rcl_timer_t *timer, int64_t last_call_time) {
         RCLC_UNUSED(last_call_time);
