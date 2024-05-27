@@ -46,17 +46,17 @@ You'll need Docker for this. [Here's a setup tutorial](https://www.docker.com/ge
 - Clone the repo and Open the micro-ros-demo-project
 	- MAKE SURE TO CLONE WITH `--recurse-submodules` FLAG (necessary for micro-ros)
 - Plug in the teensy 
-- Open the .ino file, then build and upload the project using the small right arrow in the bottom of your IDE 
+- Open the Platformio-Projects folder, click on the .ini file, then build and upload the project using the small right arrow in the bottom of your IDE 
 - If you get any errors during this process, try restarting VSCode
 
-## Runing the Microcontroller code
+## Running the Microcontroller code
 For this task, We need to run the micro-ros-agent, THEN plug in the teensy. there are 2 methods:
 - Building the micro-ros-agent
 	- make sure the microros submodule is initialized correctly (cloned with --recurse-submodules, or initialized submodules after cloning)
 	- build the agent:
 		- cd into `microros_ws`
 		- `sudo usermod -a -G dialout $USER`
-		- `sudo apt update && rosdep update`
+		- `sudo apt update && sudo apt install python3-rosdep &&  sudo rosdep init  && rosdep update`
 		- `rosdep install --from-paths src --ignore-src -y`
 		- `sudo apt-get install python3-pip`
 		- `colcon build`
