@@ -34,7 +34,7 @@ bool create_entities() {
     RCCHECK(rclc_support_init(&support, 0, NULL, &allocator));
 
     // Initialize node
-    RCCHECK(rclc_node_init_default(&node, ROLE_NODE_NAME, "", &support));
+    RCCHECK(rclc_node_init_default(&node, NODE_NAME, "", &support));
     init_all_handlers(support, node);
 
     // Initialize executor
