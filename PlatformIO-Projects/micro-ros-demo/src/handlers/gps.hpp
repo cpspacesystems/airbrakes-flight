@@ -53,7 +53,7 @@ void init_handlers(rclc_support_t &support, rcl_node_t &node) {
         &data_pub,
         &node,
         ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, NavSatFix),
-        "gps0"));
+        "gps0/raw"));
 
     // create timer to trigger publisher
     const unsigned int delta_t = 500;  // [ms] time between timer ticks

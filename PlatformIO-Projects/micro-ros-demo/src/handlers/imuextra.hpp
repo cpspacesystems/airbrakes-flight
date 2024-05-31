@@ -18,8 +18,8 @@
 #include <support/helper.hpp>
 
 
-#define IMU_TOPIC_NAME "imuextra"
-#define IMU_UPDATE_PERIOD_MS 50
+#define IMUEXTRA_TOPIC_NAME "imu"
+#define IMUEXTRA_UPDATE_PERIOD_MS 50
 
 #define ID_IMU4_WIRE Wire2
 #define ID_IMU5_WIRE Wire2
@@ -27,7 +27,7 @@
 
 #define ID_IMU4_ADDR 0x68
 #define ID_IMU5_ADDR 0x69
-#define ID_IMU6_ADDR 0x69
+#define ID_IMU6_ADDR 0x68
 
 class IMUEXTRA {
     private:
@@ -82,7 +82,7 @@ class IMUEXTRA {
             &publisher,
             &node,
             ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Imu),
-            (IMU_TOPIC_NAME + String(imu_id) + "/raw").c_str()));
+            (IMUEXTRA_TOPIC_NAME + String(imu_id) + "/raw").c_str()));
     }
 };
 
@@ -91,9 +91,9 @@ namespace imuextra {
 
     rcl_timer_t timer;
 
-    IMUEXTRA imu4(4, ID_IMU4_WIRE, ID_IMU4_ADDR);
-    IMUEXTRA imu5(5, ID_IMU5_WIRE, ID_IMU5_ADDR);
-    IMUEXTRA imu6(6, ID_IMU6_WIRE, ID_IMU6_ADDR);
+    IMUEXTRA imu4(0, ID_IMU4_WIRE, ID_IMU4_ADDR);
+    IMUEXTRA imu5(1, ID_IMU5_WIRE, ID_IMU5_ADDR);
+    IMUEXTRA imu6(2, ID_IMU6_WIRE, ID_IMU6_ADDR);
 
     void timer_callback(rcl_timer_t *timer, int64_t last_call_time) {
         RCLC_UNUSED(last_call_time);
@@ -115,7 +115,7 @@ namespace imuextra {
         imu6.init_handlers(support, node);
 
         // Create timer
-        const unsigned int delta_t = IMU_UPDATE_PERIOD_MS;
+        const unsigned int delta_t = IMUEXTRA_UPDATE_PERIOD_MS;
         RCCHECK(rclc_timer_init_default(
             &timer,
             &support,
