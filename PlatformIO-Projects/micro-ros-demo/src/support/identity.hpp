@@ -13,7 +13,7 @@
  * Teensy
 */
 #if DEVICE_ID == 1
-    #define ID_Serial Serial
+    #define ID_Serial Serial2 // formerly Serial
     #define ID_PIN_LED LED_BUILTIN
 #endif
 
